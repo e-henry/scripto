@@ -1,10 +1,10 @@
 <body>
     <h1>Scripts</h1>
     {% for script in scripts %}
-        <b>{{article.name}}</b><br />
-        <i>{{article.last_exec}}</i><br />
-        <p>{{article.server}}</p>
-        <p>{{article.status}}</p>
+        <b>{{script.name}}</b><br />
+        <i>{{script.last_exec}}</i><br />
+        <p>{{script.server}}</p>
+        <p>{{script.status}}</p>
         <hr />
     {% endfor %}
 </body>
