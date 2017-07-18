@@ -23,9 +23,15 @@
 
     {% for script in scripts %}
     <div class="row">
+      <div class="col-md-1">
+      {% if script.status %}
+        <span class="label label-success">Success</span>
+      {% else %}
+        <span class="label label-danger">Failed</span>
+      {% endif %}
+      </div>
       <div class="col-md-5">{{ script.name }}</div>
       <div class="col-md-3">{{ script.server }}</div>
-      <div class="col-md-1">{{ script.status }}</div>
       <div class="col-md-3">{{ script.last_exec }}</div>
     </div>
     {% endfor %}
