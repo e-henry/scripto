@@ -5,14 +5,18 @@ The idea is to have a simple dashboard on which all the scripts you run in your 
 
 ![Screenshot](./docs/img/screenshot.png)
 
+You can see the status of each script and its last execution time.  
+I was fed up with getting tons of emails each day, and wanted something more syntetic.  
+Through the REST API, any script can send its status, and the last execution date is used to see if something is wrong.
+
 ## Install & run
-This server is written in python 3.  
+This server is written in python 3 and uses a simple sqlite database for persistance.  
 Use pip to install the dependencies of the project, then run the server :
 ```
 pip install -r pip-packages.txt
 ```
 
-Run the server :
+Run the server, the sqlite database will be automaticaly created :
 
 ```
 python scripto.py
@@ -134,3 +138,12 @@ Content-Length: 0
 Server: Werkzeug/0.12.2 Python/3.6.1
 Date: Wed, 02 Aug 2017 15:09:50 GMT
 ```
+
+## TODO list
+
+-   Order the script view table by status
+-   Allow to order the script view table by execution Date
+-   Add a periodicity to script (hourly, daily, weekly, monthly), allowing to emit a warning if a script has not been launched for a moment
+-   Implement the PATCH method
+-   Example client code in python
+-   Script shell to encapsulate the API call (ie. `scriptosend --id <id> --name <scriptname> --status <1|0>`), this script could be configured and deployed on any server via ansible for example
