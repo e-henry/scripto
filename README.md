@@ -69,7 +69,7 @@ You need to specify the json content type in your HTTP Headers for the server to
 #### Creation, use POST
 Run :
 ```bash
-$ curl -i -H "Content-Type: application/json" -XPOST http://localhost:5000/api/script -d '{"last_exec":"CURRENT_TIMESTAMP", "name": "test_curl.sh", "server": "'$HOST'", "status": 0}'
+$ curl -i -H "Content-Type: application/json" -XPOST http://localhost:5000/api/v1/script -d '{"last_exec":"CURRENT_TIMESTAMP", "name": "test_curl.sh", "server": "'$HOST'", "status": 0}'
 ```
 
 to get the response
@@ -77,7 +77,7 @@ to get the response
 ```json
 HTTP/1.0 201 CREATED
 Content-Type: application/json
-Location: http://localhost:5000/api/script/5
+Location: http://localhost:5000/api/v1/script/5
 Vary: Accept
 Content-Type: application/json
 Content-Length: 140
@@ -121,7 +121,7 @@ Date: Wed, 02 Aug 2017 15:10:45 GMT
 
 #### DELETE
 ```bash
-$ curl -i -H "Content-Type: application/json" -XDELETE http://localhost:5000/api/v1/script/6
+$ curl -i -H "Content-Type: application/json" -XDELETE http://localhost:5000/api/v1/script/5
 ```
 
 Response :
