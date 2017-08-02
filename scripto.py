@@ -1,10 +1,11 @@
 """
 Simple flask application to monitor daily script execution
 """
-from datetime import date
+
 from flask import Flask
 from flask import render_template
 from flask_sqlalchemy import SQLAlchemy
+from flask_restless import APIManager
 
 
 app = Flask(__name__)
@@ -13,6 +14,8 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///scripto.db'
 
 db = SQLAlchemy(app)
+# Create the Flask-Restless API manager.
+manager = APIManager(app, flask_sqlalchemy_db=db)
 
 
 class Script(db.Model):
@@ -37,6 +40,11 @@ class Script(db.Model):
 def root():
     scripts = Script.query.all()
     return render_template('index.html', scripts=scripts)
+
+
+# Rest api for script table
+manager.create_api(Script, url_prefix="/api/v1",
+                   methods=['GET', 'POST', 'PUT', 'DELETE'])
 
 
 if __name__ == '__main__':
