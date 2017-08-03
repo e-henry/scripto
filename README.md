@@ -16,10 +16,15 @@ Use pip to install the dependencies of the project, then run the server :
 pip install -r pip-packages.txt
 ```
 
-Run the server, the sqlite database will be automaticaly created :
+For development or test, run the server and the sqlite database will be automaticaly created :
 
 ```
-python scripto.py
+$ python scripto_dev_server.py
+```
+
+There is also a `uwsgi` version that can be served by nginx for example ([nginx config example](./docs/nginx/scripto.conf))
+```
+$ uwsgi --socket 127.0.0.1:8080 -w scripto_wsgi:appuwsgi --socket 127.0.0.1:8080 -w scripto_wsgi:app
 ```
 
 ## REST API
