@@ -144,6 +144,30 @@ Server: Werkzeug/0.12.2 Python/3.6.1
 Date: Wed, 02 Aug 2017 15:09:50 GMT
 ```
 
+### Python example
+
+Simple example using the [requests](http://docs.python-requests.org/en/master/)
+module to send the status to scripto
+
+```python
+#!/usr/bin/python3
+
+from platform import node
+import requests
+
+status = False
+scripto_id = 1
+
+data = {'last_exec': 'CURRENT_TIMESTAMP',
+        'name': __file__,
+        'server': node(),
+        'status': status}
+scripto_url = 'http://scripto.domain.tld/api/v1/script/{}'.format(scripto_id)
+
+r = requests.put(scripto_url, json=data)
+if r.status_code != 200:
+    print('Could not send status to scripto')
+```
 ## TODO list
 
 -   Order the script view table by status
