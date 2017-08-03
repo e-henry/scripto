@@ -11,7 +11,7 @@ from flask_restless import APIManager
 app = Flask(__name__)
 
 # We'll just use SQLite here so we don't need an external database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///scripto.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../scripto.db'
 
 db = SQLAlchemy(app)
 # Create the Flask-Restless API manager.
