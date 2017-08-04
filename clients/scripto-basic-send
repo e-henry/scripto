@@ -1,0 +1,36 @@
+#!/bin/bash
+
+set -e
+
+#Edit to your need
+readonly scripto_url="http://localhost:5000/api/v1/script"
+
+
+usage() {
+  echo
+  echo "$(basename "${0}") will send a script status to scripto"
+  echo "Usage : $(basename "${0}") <id> <script_name> <status>"
+  echo "   <id> : Id of the script on scripto list"
+  echo "   <script_name> : name of the script"
+  echo "   <status> 0 or 1, the status you want to report to scripto"
+  echo ""
+  echo "For example, you can use in your calling script : "
+  echo "$(basename "${0}") 10 \"\$0\" 1"
+  echo "This will tell scripto that your script has succeeded"
+}
+
+if [ $# != 3 ]; then
+  usage
+  exit 1
+fi
+
+readonly script_id="$1"
+readonly script_name="$2"
+readonly status="$3"
+
+curl -s -H "Content-Type: application/json" -XPUT \
+  "$scripto_url"/"$script_id" \
+  -d '{"last_exec":"CURRENT_TIMESTAMP",
+       "name": "'"$script_name"'",
+       "server": "'"$(hostname)"'",
+       "status": '"$status"'}' > /dev/null
