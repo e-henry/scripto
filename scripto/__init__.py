@@ -38,7 +38,7 @@ class Script(db.Model):
 
 @app.route("/")
 def root():
-    scripts = Script.query.all()
+    scripts = Script.query.order_by("status").order_by("last_exec").all()
     return render_template('index.html', scripts=scripts)
 
 
