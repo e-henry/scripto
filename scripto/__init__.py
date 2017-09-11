@@ -7,6 +7,7 @@ from flask import render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_restless import APIManager
 
+from .momentjs import momentjs
 
 app = Flask(__name__)
 
@@ -17,6 +18,7 @@ db = SQLAlchemy(app)
 # Create the Flask-Restless API manager.
 manager = APIManager(app, flask_sqlalchemy_db=db)
 
+app.jinja_env.globals['momentjs'] = momentjs
 
 class Script(db.Model):
     """A single script"""
