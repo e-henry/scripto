@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
   <meta charset="utf-8">
@@ -13,6 +13,19 @@
   <link href="/static/css/grid.css" rel="stylesheet">
   <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}">
 
+  <script src="/static/js/moment.min.js"></script>
+  <script>
+    moment.locale('en', {
+    calendar : {
+        lastDay : '[Yesterday at] hh:mm:ss',
+        sameDay : '[Today at] hh:mm:ss',
+        nextDay : '[Tomorrow at] hh:mm:ss',
+        lastWeek : '[last] dddd [at] hh:mm:ss',
+        nextWeek : 'dddd [at] hh:mm:ss',
+        sameElse : 'ddd, D MMM YYYY, hh:mm:ss'
+      }
+    });
+  </script>
 </head>
 
 <body>
@@ -34,7 +47,7 @@
       <div class="col-md-1">{{ script.id }}</div>
       <div class="col-md-4">{{ script.name }}</div>
       <div class="col-md-3">{{ script.server }}</div>
-      <div class="col-md-3">{{ script.last_exec }}</div>
+      <div class="col-md-3"> {{ momentjs(script.last_exec).calendar() }}</div>
     </div>
     {% endfor %}
   </div>
