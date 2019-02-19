@@ -171,8 +171,8 @@ if r.status_code != 200:
 ## TODO list
 
 -   ~~Order the script view table by status~~
--   Allow to order the script view table by execution Date
+-   ~~Allow to order the script view table by execution Date~~
 -   Add a periodicity to script (hourly, daily, weekly, monthly), allowing to emit a warning if a script has not been launched for a moment
 -   Implement the PATCH method
--   Example client code in python
--   Script shell to encapsulate the API call (ie. `scriptosend --id <id> --name <scriptname> --status <1|0>`), this script could be configured and deployed on any server via ansible for example
+-   ~~Example client code in python~~
+-   ~~Script shell to encapsulate the API call (ie. `scriptosend --id <id> --name <scriptname> --status <1|0>`), this script could be configured and deployed on any server via ansible for example~~
