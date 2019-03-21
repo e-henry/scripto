@@ -143,7 +143,28 @@ Content-Length: 0
 Server: Werkzeug/0.12.2 Python/3.6.1
 Date: Wed, 02 Aug 2017 15:09:50 GMT
 ```
+### PATCH
+$  curl -i -H "Content-Type: application/json" -XPATCH http://localhost:5000/api/v1/script/5 -d '{ "name": "test_curl.edl.mba","status": 0}'
 
+
+Reponse :
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+Vary: Accept
+Content-Type: application/json
+Content-Length: 148
+Server: Werkzeug/0.12.2 Python/3.6.8
+Date: Thu, 21 Mar 2019 18:12:43 GMT
+
+{
+  "id": 5, 
+  "last_exec": "2019-03-21T17:57:07", 
+  "name": "test_curl.edl.mba", 
+  "server": "MacBook-Air-de-Alpha.local", 
+  "status": false
+}
+  
 ### Python example
 
 Simple example using the [requests](http://docs.python-requests.org/en/master/)

@@ -46,7 +46,7 @@ def root():
 
 # Rest api for script table
 manager.create_api(Script, url_prefix="/api/v1",
-                   methods=['GET', 'POST', 'PUT', 'DELETE'])
+                   methods=['GET', 'POST', 'PUT', 'DELETE','PATCH'])
 
 
 if __name__ == '__main__':
