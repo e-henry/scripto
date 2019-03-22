@@ -24,7 +24,7 @@ $ python scripto_dev_server.py
 
 There is also a `uwsgi` version that can be served by nginx for example ([nginx config example](./docs/nginx/scripto.conf))
 ```
-$ uwsgi --socket 127.0.0.1:8080 -w scripto_wsgi:appuwsgi --socket 127.0.0.1:8080 -w scripto_wsgi:app
+$ uwsgi --socket 127.0.0.1:8080 -w scripto_wsgi:app
 ```
 
 ## REST API
