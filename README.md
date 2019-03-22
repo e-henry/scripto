@@ -3,7 +3,7 @@
 Simple python app to monitor automatic script execution.  
 The idea is to have a simple dashboard on which all the scripts you run in your datacenter are represented with their execution status.
 
-![Screenshot](./docs/img/screenshot.png)
+![Screenshot](./docs/img/screenshot1.png)
 
 You can see the status of each script and its last execution time.  
 I was fed up with getting tons of emails each day, and wanted something more syntetic.  
@@ -40,7 +40,8 @@ The json format is self explanatory :
   "last_exec": "timestamp YYYY-MM-DDTHH:mm:ss",
   "name": "string : the script name",
   "server": "string : the server name",
-  "status": boolean
+  "status": boolean,
+  "periodicity": "string : hourly, daily, weekly, monthly"
 }
 ```
 
@@ -55,7 +56,8 @@ Host: example.com
   "last_exec": "CURRENT_TIMESTAMP",
   "name": "test.sh",
   "server": "myserver.local",
-  "status": true
+  "status": true,
+  "periodicity": "hourly"
 }
 ```
 Response :
@@ -67,7 +69,8 @@ HTTP/1.0 201 CREATED
   "last_exec": "2017-08-02T14:16:25",
   "name": "test.sh",
   "server": "myserver.local",
-  "status": true
+  "status": true,
+  "periodicity": "hourly"
 }
 ```
 
@@ -78,7 +81,7 @@ You need to specify the json content type in your HTTP Headers for the server to
 #### Creation, use POST
 Run :
 ```bash
-$ curl -i -H "Content-Type: application/json" -XPOST http://localhost:5000/api/v1/script -d '{"last_exec":"CURRENT_TIMESTAMP", "name": "test_curl.sh", "server": "'$HOST'", "status": 0}'
+$ curl -i -H "Content-Type: application/json" -XPOST http://localhost:5000/api/v1/script -d '{"last_exec":"CURRENT_TIMESTAMP", "name": "test_curl.sh", "server": "'$HOST'", "status": 0, "periodicity": "hourly"}'
 ```
 
 to get the response
@@ -98,14 +101,15 @@ Date: Wed, 02 Aug 2017 14:16:25 GMT
   "last_exec": "2017-08-02T14:16:25",
   "name": "test_curl.sh",
   "server": "myserver.local",
-  "status": false
+  "status": false,
+  "periodicity": "hourly"
 }
 ```
 
 #### Update, get the id previously returned and use PUT
 
 ```
-$  curl -i -H "Content-Type: application/json" -XPUT http://localhost:5000/api/v1/script/5 -d '{"last_exec":"CURRENT_TIMESTAMP", "name": "test_curl.sh", "server": "'$HOST'", "status": 1}'
+$  curl -i -H "Content-Type: application/json" -XPUT http://localhost:5000/api/v1/script/5 -d '{"last_exec":"CURRENT_TIMESTAMP", "name": "test_curl.sh", "server": "'$HOST'", "status": 1, "periodicity": "hourly"}'
 ```
 
 Response :
@@ -124,8 +128,9 @@ Date: Wed, 02 Aug 2017 15:10:45 GMT
   "last_exec": "2017-08-02T15:10:45",
   "name": "test_curl.sh",
   "server": "myserver.local",
-  "status": true
-}
+  "status": true,
+  "periodicity": "hourly"
+  }
 ```
 
 #### DELETE
@@ -157,11 +162,13 @@ import requests
 
 status = False
 scripto_id = 1
+periodicity = "hourly"
 
 data = {'last_exec': 'CURRENT_TIMESTAMP',
         'name': __file__,
         'server': node(),
-        'status': status}
+        'status': status,
+        'periodicity': periodicity}
 scripto_url = 'http://scripto.domain.tld/api/v1/script/{}'.format(scripto_id)
 
 r = requests.put(scripto_url, json=data)

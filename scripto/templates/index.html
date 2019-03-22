@@ -45,9 +45,14 @@
       {% endif %}
       </div>
       <div class="col-md-1">{{ script.id }}</div>
-      <div class="col-md-4">{{ script.name }}</div>
+      <div class="col-md-2">{{ script.name }}</div>
       <div class="col-md-3">{{ script.server }}</div>
-      <div class="col-md-3"> {{ momentjs(script.last_exec).calendar() }}</div>
+      <div class="col-md-2"> {{ momentjs(script.last_exec).calendar() }}</div>
+      <div class="col-md-3"> {{ script.periodicity }} 
+          {% if momentjs(script.last_exec).isNotPeriodic(script.periodicity) %}
+          &nbsp;<span class="badge badge-warning">Periodicity not respected !</span>
+          {% endif %}
+      </div>
     </div>
     {% endfor %}
   </div>

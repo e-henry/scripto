@@ -27,12 +27,14 @@ class Script(db.Model):
     status = db.Column(db.Boolean)
     server = db.Column(db.String())
     last_exec = db.Column(db.DateTime)
+    periodicity = db.Column(db.String())
 
-    def __init__(self, name, status, server, last_exec):
+    def __init__(self, name, status, server, last_exec, periodicity):
         self.name = name
         self.status = status
         self.server = server
         self.last_exec = last_exec
+        self.periodicity = periodicity
 
     def __repr__(self):
         return '<Script %r>' % self.name
