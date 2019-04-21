@@ -21,4 +21,7 @@ def upgrade():
 
 
 def downgrade():
-    op.drop_column('script', 'periodicity')
+    # Sqlite does not handle the drop column directive, but alembic can take care of
+    # creating a migration script if we use its batch mode
+    with op.batch_alter_table("script") as batch_op:
+        batch_op.drop_column('periodicity')
