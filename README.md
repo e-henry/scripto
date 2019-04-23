@@ -3,7 +3,7 @@
 Simple python app to monitor automatic script execution.  
 The idea is to have a simple dashboard on which all the scripts you run in your datacenter are represented with their execution status.
 
-![Screenshot](./docs/img/screenshot1.png)
+![Screenshot](./docs/img/screenshot.png)
 
 You can see the status of each script and its last execution time.  
 I was fed up with getting tons of emails each day, and wanted something more syntetic.  
@@ -13,8 +13,10 @@ Through the REST API, any script can send its status, and the last execution dat
 This server is written in python 3 and uses a simple sqlite database for persistance.  
 Use pip to install the dependencies of the project, then run the server :
 ```
-pip install -r pip-packages.txt
+pip install -r requirements.txt
 ```
+
+Note: Pip packages are handle by [pip-tools](https://pypi.org/project/pip-tools/)
 
 For development or test, run the server and the sqlite database will be automaticaly created :
 
@@ -149,27 +151,33 @@ Server: Werkzeug/0.12.2 Python/3.6.1
 Date: Wed, 02 Aug 2017 15:09:50 GMT
 ```
 ### PATCH
-$  curl -i -H "Content-Type: application/json" -XPATCH http://localhost:5000/api/v1/script/5 -d '{ "name": "test_curl.edl.mba","status": 0}'
 
+Allows you to modify only one field :
 
-Reponse :
+```bash
+$ curl -i -H "Content-Type: application/json" -XPATCH http://localhost:5000/api/v1/script/4 -d '{ "periodicity":"weekly"}'
+```
 
+Response :
+```json
 HTTP/1.0 200 OK
 Content-Type: application/json
+Content-Length: 159
 Vary: Accept
 Content-Type: application/json
-Content-Length: 148
-Server: Werkzeug/0.12.2 Python/3.6.8
-Date: Thu, 21 Mar 2019 18:12:43 GMT
+Server: Werkzeug/0.15.2 Python/3.6.8
+Date: Tue, 23 Apr 2019 10:52:10 GMT
 
 {
-  "id": 5, 
-  "last_exec": "2019-03-21T17:57:07", 
-  "name": "test_curl.edl.mba", 
-  "server": "MacBook-Air-de-Alpha.local", 
-  "status": false
+  "id": 4,
+  "last_exec": "2019-04-23T14:35:09",
+  "name": "last_script.sh",
+  "periodicity": "weekly",
+  "server": "future-server",
+  "status": true
 }
-  
+```
+
 ### Python example
 
 Simple example using the [requests](http://docs.python-requests.org/en/master/)
@@ -196,11 +204,3 @@ r = requests.put(scripto_url, json=data)
 if r.status_code != 200:
     print('Could not send status to scripto')
 ```
-## TODO list
-
--   ~~Order the script view table by status~~
--   ~~Allow to order the script view table by execution Date~~
--   Add a periodicity to script (hourly, daily, weekly, monthly), allowing to emit a warning if a script has not been launched for a moment
--   Implement the PATCH method
--   ~~Example client code in python~~
--   ~~Script shell to encapsulate the API call (ie. `scriptosend --id <id> --name <scriptname> --status <1|0>`), this script could be configured and deployed on any server via ansible for example~~
