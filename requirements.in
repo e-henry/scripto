@@ -1,0 +1,7 @@
+alembic
+Flask
+Flask-Restless
+Flask-SQLAlchemy
+pip-tools
+pylint
+uWSGI
