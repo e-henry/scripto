@@ -35,31 +35,45 @@
       <p class="lead">Last execution of scripts.</p>
     </div>
 
-    {% for script in scripts %}
-    <div class="row">
-      <div class="col-md-1">
-      {% if script.status %}
-        <span class="label label-success">Success</span>
-      {% else %}
-        <span class="label label-danger">Failed</span>
-      {% endif %}
-      </div>
-      <div class="col-md-1">{{ script.id }}</div>
-      <div class="col-md-2">{{ script.name }}</div>
-      <div class="col-md-3">{{ script.server }}</div>
-      <div class="col-md-2"> {{ momentjs(script.last_exec).calendar() }}</div>
-      <div class="col-md-3"> {{ script.periodicity }} 
-          {% if momentjs(script.last_exec).isNotPeriodic(script.periodicity) %}
-          &nbsp;<span class="badge badge-warning">Periodicity not respected !</span>
-          {% endif %}
-      </div>
-    </div>
-    {% endfor %}
+
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Status</th>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Server</th>
+            <th scope="col">Date</th>
+            <th scope="col">Periodicity</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for script in scripts %}
+            <tr class="middle-align-child-td">
+            <td>
+              {% if script.status %}
+                <span class="label label-success">Success</span>
+              {% else %}
+                <span class="label label-danger">Failed</span>
+              {% endif %}
+            </td>
+            <td><span>{{ script.id }}</span></td>
+            <td><span>{{ script.name }}</span></td>
+            <td><span>{{ script.server }}</span></td>
+            <td><span> {{ momentjs(script.last_exec).calendar() }}</div></td>
+            <td><span> {{ script.periodicity }}</span>
+              {% if momentjs(script.last_exec).isNotPeriodic(script.periodicity) %}
+              &nbsp;<span class="label label-warning">Late !</span>
+              {% endif %}
+            </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+        </table>
+     </div>
   </div>
-  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-  <script src="/static/js/jquery-1.12.4.min.js"></script>
-  <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="/static/js/bootstrap.min.js"></script>
 </body>
 
 </html>
