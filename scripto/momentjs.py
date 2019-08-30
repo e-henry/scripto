@@ -15,8 +15,9 @@ class momentjs(object):
 
     def fromNow(self):
         return self.render("fromNow()")
+
     def isNotPeriodic(self, periodicity):
-        currentTime=datetime.now()
+        currentTime=datetime.utcnow()
         lastExecTime = datetime.strptime(self.timestamp.strftime("%Y-%m-%d %H:%M:%S"), "%Y-%m-%d %H:%M:%S")
         duration=(currentTime-lastExecTime).total_seconds() / 3600.0 #result is in hour
         if (periodicity.lower()=="hourly" and duration>=1) \
