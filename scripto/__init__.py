@@ -12,16 +12,18 @@ from .momentjs import momentjs
 app = Flask(__name__)
 
 # We'll just use SQLite here so we don't need an external database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../scripto.db'
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///../scripto.db"
 
 db = SQLAlchemy(app)
 # Create the Flask-Restless API manager.
 manager = APIManager(app, flask_sqlalchemy_db=db)
 
-app.jinja_env.globals['momentjs'] = momentjs
+app.jinja_env.globals["momentjs"] = momentjs
+
 
 class Script(db.Model):
     """A single script"""
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String())
     status = db.Column(db.Boolean)
@@ -37,20 +39,21 @@ class Script(db.Model):
         self.periodicity = periodicity
 
     def __repr__(self):
-        return '<Script %r>' % self.name
+        return "<Script %r>" % self.name
 
 
 @app.route("/")
 def root():
     scripts = Script.query.order_by("status").order_by("last_exec").all()
-    return render_template('index.html', scripts=scripts)
+    return render_template("index.html", scripts=scripts)
 
 
 # Rest api for script table
-manager.create_api(Script, url_prefix="/api/v1",
-                   methods=['GET', 'POST', 'PUT', 'DELETE','PATCH'])
+manager.create_api(
+    Script, url_prefix="/api/v1", methods=["GET", "POST", "PUT", "DELETE", "PATCH"]
+)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     db.create_all()  # make our sqlalchemy tabless
     app.run(port=5000, debug=True)

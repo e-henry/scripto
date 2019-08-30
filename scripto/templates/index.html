@@ -64,7 +64,7 @@
             <td><span>{{ script.server }}</span></td>
             <td><span> {{ momentjs(script.last_exec).calendar() }}</div></td>
             <td><span> {{ script.periodicity }}</span>
-              {% if momentjs(script.last_exec).isNotPeriodic(script.periodicity) %}
+              {% if momentjs(script.last_exec).is_late(script.periodicity) %}
               &nbsp;<span class="label label-warning">Late !</span>
               {% endif %}
             </td>

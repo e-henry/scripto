@@ -4,4 +4,5 @@ Flask-Restless
 Flask-SQLAlchemy
 pip-tools
 pylint
+black
 uWSGI
