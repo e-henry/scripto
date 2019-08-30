@@ -67,6 +67,9 @@
               {% if momentjs(script.last_exec).is_late(script.periodicity) %}
               &nbsp;<span class="label label-warning">Late !</span>
               {% endif %}
+              {% if momentjs(script.last_exec).is_soon(script.periodicity) %}
+              &nbsp;<span class="label label-info">Soon...</span>
+              {% endif %}
             </td>
             </tr>
           {% endfor %}
