@@ -1,0 +1,112 @@
+#!/bin/bash
+
+set -euo pipefail
+
+#Edit to your need
+readonly scripto_url="http://localhost:5000/api/v1/script"
+verbose=false
+
+HELP_STR="usage: $0 [-h] [-v] [-i] [-c] [-n] [--id[=]<value>] [--name[=]<value>] [--command[=]<value] [--help]"
+
+# Notice hidden variables and other built-in Bash functionality
+optspec=":ichvn-:"
+while getopts "$optspec" optchar; do
+    case "${optchar}" in
+        -)
+            case "${OPTARG}" in
+                id)
+                    val="${!OPTIND}"; OPTIND=$(( $OPTIND + 1 ))
+                    script_id="${val}"
+                    ;;
+                name)
+                    val="${!OPTIND}"; OPTIND=$(( $OPTIND + 1 ))
+                    script_name="${val}"
+                    ;;
+                command)
+                    val="${!OPTIND}"; OPTIND=$(( $OPTIND + 1 ))
+                    COMMAND="${val}"
+                    ;;
+                help)
+                    val="${!OPTIND}"; OPTIND=$(( $OPTIND + 1 ))
+                    ;;
+                *)
+                    if [ "$OPTERR" = 1 ] && [ "${optspec:0:1}" != ":" ]; then
+                        echo "Found an unknown option --${OPTARG}" >&2
+                    fi
+                    ;;
+            esac;;
+        i)
+                val="${!OPTIND}"; OPTIND=$(( $OPTIND + 1 ))
+                script_id="${val}"
+                ;;
+        n)
+                val="${!OPTIND}"; OPTIND=$(( $OPTIND + 1 ))
+                script_name="${val}"
+                ;;
+        c)
+                val="${!OPTIND}"; OPTIND=$(( $OPTIND + 1 ))
+                COMMAND="${val}"
+                ;;
+        v)
+                verbose=true
+                ;;
+        h)
+            echo "${HELP_STR}" >&2
+            exit 2
+            ;;
+        *)
+            if [ "$OPTERR" != 1 ] || [ "${optspec:0:1}" = ":" ]; then
+                echo "Error parsing short flag: '-${OPTARG}'" >&2
+                exit 1
+            fi
+
+            ;;
+    esac
+done
+
+# Do we have even one argument?
+if [ -z "$1" ]; then
+  echo "${HELP_STR}" >&2
+  exit 2
+fi
+
+set +u
+# Sanity check for both Id and Command
+if [ -z "${script_id}" ] || [ -z "${COMMAND}" ]; then
+  echo "Both id and command are required!"
+  exit 3
+fi
+
+if [ -z "${script_name}" ]; then
+    script_name="${COMMAND}"
+fi
+set -u
+
+if $verbose
+then
+    echo "Execute '${COMMAND}' and report to id:${script_id}!"
+fi
+
+set +e
+if eval ${COMMAND}
+then
+  status=1
+  if ${verbose}; then
+    echo "Command was successful"
+  fi
+else
+  status=0
+  if ${verbose}; then
+    echo "Command returned an error"
+  fi
+fi
+set -e
+
+curl -s -H "Content-Type: application/json" -XPATCH \
+  "${scripto_url}"/"${script_id}" \
+  -d '{"last_exec":"CURRENT_TIMESTAMP",
+       "name": "'"${script_name}"'",
+       "server": "'"$(hostname)"'",
+       "status": '"${status}"'}' > /dev/null
+
+exit 0
