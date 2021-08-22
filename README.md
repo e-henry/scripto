@@ -13,7 +13,7 @@ Through the REST API, any script can send its status, and the last execution dat
 This server is written in python 3 and uses a simple sqlite database for persistance.  
 Use pip to install the dependencies of the project, then run the server :
 ```
-pip install -r requirements.txt
+$ pip install -r requirements.txt
 ```
 
 Note: Pip packages are handle by [pip-tools](https://pypi.org/project/pip-tools/)
